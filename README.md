@@ -7,7 +7,7 @@ Sitrab adalah sistem informasi yang digunakan untuk pengecekan informasi pemanfa
 - input koordinat secara atau menggambar di peta untuk melakukan pengecekan
 
 ## Teknologi yang digunakan
-- **Frontend:** React.js, Vite
+- **Frontend:** React.js, Openlayers, Vite
 - **Backend:** Node.js, Express.js
 - **Database:** Postgresql, Postgis
 
