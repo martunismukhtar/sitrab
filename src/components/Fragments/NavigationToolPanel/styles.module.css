@@ -1,0 +1,13 @@
+.dot:hover {
+    scale: 1.1;
+}
+.dot {
+    height: 3rem;
+    width: 3rem;
+    background-color: #fff;
+    border-radius: 50% !important;
+    margin-right: 5px;
+    color: #030083;
+    border: 1px solid #030083;
+    cursor: pointer;
+}

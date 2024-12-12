@@ -1,0 +1,22 @@
+/* .visible{
+    visibility: visible;
+    opacity: 1;
+    transition: opacity 2s ease-in-out;
+}
+.hidden{
+    visibility: hidden;
+    opacity: 0;
+    transition: visibility .2s, opacity .2s ease-in-out;
+} */
+
+.visible {
+    opacity: 1; /* Sepenuhnya terlihat */
+    visibility: visible; /* Elemen terlihat */
+    transform: translateY(0) scale(1); /* Kembali ke posisi semula dengan ukuran normal */
+  }
+  
+  .hidden {
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-20px) scale(0.9); /* Geser ke atas dan sedikit lebih kecil */
+  }
