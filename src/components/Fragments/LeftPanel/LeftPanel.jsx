@@ -15,7 +15,7 @@ function LeftPanel() {
     >
       <AsideHeader />
       <ul
-        className={`transition-all duration-300 ease-linear ul-parent ${panel ? `h-[calc(100vh-130px)] sm:h-[calc(100vh-200px)] overflow-y-auto [&::-webkit-scrollbar]:w-2
+        className={`transition-all duration-300 ease-linear ul-parent ${panel ? `h-[calc(100vh-150px)] sm:h-[calc(100vh-200px)] overflow-y-auto [&::-webkit-scrollbar]:w-2
 [&::-webkit-scrollbar-track]:rounded-full
   [&::-webkit-scrollbar-track]:bg-gray-100
   [&::-webkit-scrollbar-thumb]:rounded-full
@@ -28,8 +28,8 @@ function LeftPanel() {
         <DaftarPeta judul="Jaringan Jalan" layer="jaringan_jalan" />
         <Klasifikasi />
         <DaftarPeta judul="RTRW" layer="pola_ruang" />
-        <DaftarPeta judul="RDTR" layer="gambut" />
-        <DaftarPeta judul="Moratorium Gambut" layer="rd_ar_pr" />
+        <DaftarPeta judul="RDTR" layer="rd_ar_pr" />
+        <DaftarPeta judul="Moratorium Gambut" layer="gambut" />
       </ul>
     </aside>
   );

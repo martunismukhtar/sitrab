@@ -3,10 +3,8 @@ import LandingLayout from "../../layouts/landing";
 
 import "ol/ol.css";
 import { Map, View } from "ol";
-import OSM from "ol/source/OSM";
 import MapContext from "../../context/MapContext";
 import { transform } from "ol/proj";
-import TileLayer from "ol/layer/Tile";
 import Draw from "ol/interaction/Draw";
 import Modal from "../../components/Elements/Modal/Modal.jsx";
 import Toast from "../../components/Elements/Toast/Index.jsx";
@@ -35,12 +33,10 @@ import { defaults as defaultInteractions } from "ol/interaction.js";
 import NavigationToolPanel from "../../components/Fragments/NavigationToolPanel/Index.jsx";
 import HasilIntersect from "../../components/Fragments/HasilIntersect/Index.jsx";
 import FormKRK from "../../components/Fragments/FormKRK.jsx";
-import { TileImage } from "ol/source.js";
-// import Navbar from "../../layouts/landing/navbar.jsx";
 
 const LandingPage = () => {
   const [, setIsOpenModal] = useAtom(isOpenModal);
-  // const [isModalOpen, setIsModalOpen] = React.useState(false);
+
   const [peta, setMap] = React.useState(null);
   const [isDrawing] = useAtom(isDrawingAtom);
   const [activeModal, setActiveModal] = useAtom(activeModalAtom);
@@ -84,22 +80,7 @@ const LandingPage = () => {
 	lng = 96.18403;
   useEffect(() => {
     mapInstance.current = new Map({
-      target: mapRef.current,
-      layers: [
-        new TileLayer({
-          source: new OSM(),
-          layerid: "osm",
-          visible: false,
-        }),
-        new TileLayer({
-          source: new TileImage({
-            url: "http://mt0.google.com/vt/lyrs=y&hl=en&x={x}&y={y}&z={z}&s=Ga",
-            crossOrigin: "anonymous",
-          }),
-          layerid: "google",
-          visible: true,
-        }),
-      ],
+      target: mapRef.current,      
       view: new View({
         center: transform(
           [parseFloat(lng), parseFloat(lat)],

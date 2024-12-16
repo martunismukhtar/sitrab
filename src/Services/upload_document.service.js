@@ -9,7 +9,10 @@ export const UploadDocumentKRK = async (event, callback) => {
   formData.append("mime_type", event.type);
   //maksimum 5MB
   if (event.size > 5242880) {
-    alert("Ukuran file melebihi batas maksimum");
+    callback({
+      'status':'error',
+      'message':"Ukuran file melebihi batas maksimum"
+    })
     return false;
   }
 

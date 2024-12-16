@@ -9,8 +9,7 @@ export default defineConfig({
     rollupOptions: {
       output: {
         manualChunks: {
-          vendor: ['react', 'react-dom'], // Pisahkan react ke dalam chunk 'vendor'
-          // ui: ['lodash', 'moment'], // Pisahkan utilitas ke dalam chunk 'ui'
+          vendor: ['react', 'react-dom'], // Pisahkan react ke dalam chunk 'vendor'          
         },
       },
     },
