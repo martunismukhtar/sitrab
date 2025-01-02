@@ -8,6 +8,7 @@ export const LayerInfo = async (layer, kode, callback) => {
             'data':res.data
         })
     }).catch(err=>{
+        console.log(err);
         callback({
             'status':err.status,
             'message':err.message

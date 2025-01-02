@@ -13,6 +13,7 @@ import {
   setVisibleToast,
 } from "../jotai/atoms";
 import { Sumber } from "../Source/Index";
+import { LayersSource } from "../Source/LayersSource";
 
 const DynamicTile = () => {
   const { peta } = useContext(MapContext);
@@ -41,7 +42,7 @@ const DynamicTile = () => {
         visible: false,
       },
     ]);
-    
+
     //google
     let google_tile_layer = new TileLayer({
       source: new TileImage({
@@ -63,46 +64,29 @@ const DynamicTile = () => {
       },
     ]);
 
+    LayersSource.map((layer) => {
+      let tile_layer = new TileLayer({
+        layerid: layer.table,
+        name: layer.table,
+        source: Sumber(layer.table),
+      });
+      peta.addLayer(tile_layer);      
+      if (layer.visible) tile_layer.setVisible(true);
+      else tile_layer.setVisible(false);
+      setLayersMap((prev) => [...prev, tile_layer]);
+
+      setListLayer((prev) => [
+        ...prev,
+        {
+          layer: layer.table,
+          title: layer.table_alias,
+          visible: layer.visible,
+        },
+      ]);
+    });
+
     Layers((res) => {
       if (res.status == 200) {
-        res.data.layers.map((layer) => {
-          if (
-            layer.table === "kecamatan" ||
-            layer.table === "jaringan_jalan" ||
-            layer.table === "pola_ruang" ||
-            layer.table === "rd_ar_pr" ||
-            layer.table === "gambut"
-          ) {
-            let tile_layer = new TileLayer({
-              layerid: layer.table,
-              name: layer.table,
-              source: Sumber(layer.table),
-            });
-            peta.addLayer(tile_layer);
-            setLayersMap((prev) => [...prev, tile_layer]);
-            if (layer.table === "kecamatan") {
-              tile_layer.setVisible(true);
-              setListLayer((prev) => [
-                ...prev,
-                {
-                  layer: layer.table,
-                  title: layer.table_alias,
-                  visible: true,
-                },
-              ]);
-            } else {
-              tile_layer.setVisible(false);
-              setListLayer((prev) => [
-                ...prev,
-                {
-                  layer: layer.table,
-                  title: layer.table_alias,
-                  visible: false,
-                },
-              ]);
-            }
-          }
-        });
         //klasifikasi
         res.data.klass.map((layer) => {
           let tile_layer = new TileLayer({

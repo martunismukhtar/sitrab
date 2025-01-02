@@ -16,7 +16,7 @@ const Klasifikasi = () => {
   );
   const [, setLayersMap] = useAtom(layersMapAtom);
   const [, setVisible] = useAtom(setVisibleToast);
-  const [map_size] = useAtom(initialMapSizeAtom);
+  // const [map_size] = useAtom(initialMapSizeAtom);
   const { peta } = useContext(MapContext);
 
   const updateSelectedClassLayer = (e) => {
@@ -49,8 +49,8 @@ const Klasifikasi = () => {
         message: "Data tidak boleh kosong",
         type: "error",
       });
-    } else {
-      peta.getView().fit(e, map_size);
+    } else {      
+      peta.getView().fit(e, { size: peta.getSize(), padding: [50, 50, 50, 50] });
     }
   };
   return (

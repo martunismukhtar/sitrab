@@ -21,7 +21,7 @@ const RDTR = ({ data }) => {
     <>
       {newdata.length > 0 && (
         <div className="m-3">
-          <h1>RDTR</h1>
+          <h5>RDTR</h5>
           <Table data={newdata} />
         </div>
       )}

@@ -10,7 +10,7 @@ const Toast = ({ message, type, onClose }) => {
 
   return (
     <div
-      className={`fixed top-4 right-4 flex items-center gap-4 p-4 rounded shadow-lg transition-transform duration-300 z-[99] ${
+      className={`fixed top-4 right-1 sm:right-4 flex items-center gap-4 p-4 rounded shadow-lg transition-transform duration-300 z-[99] ${
         typeStyles[type] || "bg-gray-500 text-white"
       }`}
     >

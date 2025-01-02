@@ -3,14 +3,14 @@ import Input from "./Input";
 import { forwardRef } from "react";
 
 const InputForm = forwardRef((props, ref) => {
-    const {label, name, type, placeholder, value, onChange, required} = props
+    const {label, name, type, placeholder, value, maxLength=50, onChange, required} = props
   return (
     <div className="mb-6">
       <Label htmlfor={name}>
           {label} 
           {required ? <span className='text-red-500 pl-2'>*</span> : ""}          
       </Label>
-      <Input type={type} value={value} name={name}         
+      <Input type={type} value={value} name={name} maxLength={maxLength}
         onChange={onChange} placeholder={placeholder} ref={ref}
         required={required}
         />

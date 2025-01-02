@@ -1,7 +1,6 @@
 
 import Navbar from "./navbar";
 
-
 const LandingLayout = ({ children }) => {
   return (
     <div className="flex flex-col h-screen relative">

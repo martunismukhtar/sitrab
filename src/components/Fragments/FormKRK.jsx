@@ -170,7 +170,7 @@ const FormKRK = () => {
     <div className="mt-4 h-[600px] overflow-y-auto">
       <h2 className="font-bold">Data Pemohon</h2>
       <form onSubmit={handleSubmit} className="mt-3">
-        <div className="gap-4">
+        <div className="gap-4 m-2">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
             <InputForm
               label="Nama Pemohon"
@@ -179,6 +179,7 @@ const FormKRK = () => {
               placeholder="Pemohon"
               onChange={handleChange}
               name="pengaju"
+              maxLength={50}
               value={form_krk.pengaju}
             ></InputForm>
             <InputForm
@@ -188,6 +189,7 @@ const FormKRK = () => {
               placeholder="Pekerjaan"
               onChange={handleChange}
               name="pekerjaan"
+              maxLength={100}
               value={form_krk.pekerjaan}
             ></InputForm>
           </div>
@@ -199,6 +201,7 @@ const FormKRK = () => {
               placeholder="Alamat"
               onChange={handleChange}
               name="alamat"
+              maxLength={200}
               value={form_krk.alamat}
             ></InputForm>
             <InputForm
@@ -208,6 +211,7 @@ const FormKRK = () => {
               placeholder="Jabatan"
               onChange={handleChange}
               name="jabatan"
+              maxLength={100}
               value={form_krk.jabatan}
             ></InputForm>
           </div>
@@ -219,6 +223,7 @@ const FormKRK = () => {
               placeholder="Email"
               onChange={handleChange}
               name="email"
+              maxLength={50}
               value={form_krk.email}
             ></InputForm>
             <InputForm
@@ -228,6 +233,7 @@ const FormKRK = () => {
               placeholder="No. HP"
               onChange={handleChange}
               name="nomor_hp"
+              maxLength={20}
               value={form_krk.nomor_hp}
             ></InputForm>
           </div>
@@ -250,6 +256,7 @@ const FormKRK = () => {
               type="text"
               placeholder="Pemilik"
               onChange={handleChange}
+              maxLength={200}
               name="pemilik_tanah"
               value={form_krk.pemilik_tanah}
             ></InputForm>
@@ -270,6 +277,7 @@ const FormKRK = () => {
               placeholder="Sertifikat"
               onChange={handleChange}
               name="no_sertifikat"
+              maxLength={100}
               value={form_krk.no_sertifikat}
             ></InputForm>
           </div>
@@ -281,6 +289,7 @@ const FormKRK = () => {
               placeholder="Alamat"
               onChange={handleChange}
               name="alamat_tanah"
+              maxLength={200}
               value={form_krk.alamat_tanah}
             ></InputForm>
             <SelectForm
@@ -354,8 +363,8 @@ const FormKRK = () => {
             );
           })}
         </div>
-        <div className="w-full text-end">
-        { isLoading ? <LoadingButton /> : <Button type="submit" className="button-blue">
+        <div className="w-full text-end mt-4">
+        { isLoading ? <LoadingButton /> : <Button type="submit" className="button-blue mx-2">
           Ajukan
         </Button> }        
       </div>

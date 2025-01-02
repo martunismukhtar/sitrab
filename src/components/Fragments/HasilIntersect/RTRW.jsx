@@ -20,7 +20,7 @@ const RTRW = ({ data }) => {
     <>
       {newdata.length > 0 && (
         <div className="m-3">
-          <h1>RTRW</h1>
+          <h5>RTRW</h5>
           <Table data={newdata} />
         </div>
       )}

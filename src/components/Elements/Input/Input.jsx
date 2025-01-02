@@ -1,7 +1,7 @@
 import { forwardRef, useId } from "react";
 
 const Input = forwardRef((props, ref) => {
-  const { type, placeholder, name, value="", onChange, required=false } = props;
+  const { type, placeholder, name, value="", maxLength=50, onChange, required=false } = props;
   // const ids = useId();
   return (
     <input
@@ -13,6 +13,7 @@ const Input = forwardRef((props, ref) => {
       onChange={onChange}
       ref={ref}
       value={value}
+      maxLength={maxLength}
       required={required?true:false}
     />
   );

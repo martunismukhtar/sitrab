@@ -80,14 +80,6 @@ const FormPengajuan = () => {
     });
   };
 
-  // const SelectKegiatan = (e) => {
-  //   nilaiForm.kegiatan = e.id;
-  // };
-
-  // const handleSelect = (option) => {
-  //   console.log("Selected option:", option.value);
-  // };
-
   const handleDelete = (row, idx) => {
     setCoordinates(coordinates.filter((item, index) => index !== idx));
   };
@@ -171,8 +163,8 @@ const FormPengajuan = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 overflow-hidden overflow-y-auto max-h-[250px] sm:max-h-[550px]">
+    <form onSubmit={handleSubmit} className="mt-3">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 ">
         <div className="w-full mt-2 p-2">
           <InputForm
             label="Nama Pemohon"
@@ -181,11 +173,13 @@ const FormPengajuan = () => {
             placeholder="Pemohon"
             onChange={handleChange}
             name="pengaju"
+            maxLength={50}
             value={nilaiForm.pengaju}
           ></InputForm>
           <InputForm
             label="No Telepon"
             type="text"
+            maxLength={20}
             required={true}
             placeholder="No Telepon"
             name="nomor_hp"
@@ -198,6 +192,7 @@ const FormPengajuan = () => {
             required={true}
             placeholder="email"
             name="email"
+            maxLength={50}
             value={nilaiForm.email}
             onChange={handleChange}
           ></InputForm>
@@ -207,6 +202,7 @@ const FormPengajuan = () => {
             required={true}
             placeholder="Tujuan"
             name="tujuan"
+            maxLength={150}
             value={nilaiForm.tujuan}
             onChange={handleChange}
           ></InputForm>
@@ -313,7 +309,7 @@ const FormPengajuan = () => {
           </div>
         </div>
       </div>
-      <div className="w-full text-end">
+      <div className="w-full text-end mt-4">
         {isLoading ? (
           <LoadingButton />
         ) : (

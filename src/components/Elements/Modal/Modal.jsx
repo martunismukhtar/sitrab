@@ -10,7 +10,7 @@ import {
 
 const Modal = ({
   title = "Judul Modal",
-  size = "w-1/3",
+  size = "md",
   children,
   className = "",
 }) => {
@@ -19,6 +19,8 @@ const Modal = ({
   const [, setDrawing] = useAtom(isDrawingAtom);
   const [, setCoordinates] = useAtom(coordinatesAtom);
   const [, setActiveModal] = useAtom(activeModalAtom);
+
+  const [customSize, setCustomSize] = React.useState("sm:w-1/3");
 
   const handleCloseModal = () => {
     setIsOpenModal(false);
@@ -39,27 +41,58 @@ const Modal = ({
     setActiveModal(null);
   };
 
+  React.useEffect(() => {
+    switch (size) {
+      case "sm":
+        setCustomSize("sm:w-1/4");
+        break;
+      case "base":
+        setCustomSize("sm:w-1/3");
+        break;
+      case "md":
+        setCustomSize("sm:w-1/2");
+        break;
+      case "lg":
+        setCustomSize("sm:w-3/4");
+        break;
+      case "xl":
+        setCustomSize("sm:w-4/5");
+        break;
+      default:
+        setCustomSize("sm:w-1/2"); // Fallback ke 'md'
+        break;
+    }
+  }, [size]);
   return (
     <>
       <div
-        className={`fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 transition-opacity duration-300 z-[99] ${
-          openModalAtom ? 'opacity-100 visible' : 'opacity-0 invisible'
+        className={`fixed inset-0 bg-black bg-opacity-50 transition-opacity duration-300 z-[99] flex items-center justify-center ${
+          openModalAtom ? "opacity-100 visible" : "opacity-0 invisible"
         } ${className}`}
       >
         <div
-          className={`bg-white rounded-lg shadow dark:bg-gray-700 p-6 w-full sm:${size} max-w-4xl relative transform scale-95 ${openModalAtom ? 'animate-fade-in opacity-100' : 'animate-fade-out opacity-0'}`}
+          className={`bg-white rounded-lg shadow-lg dark:bg-gray-700 w-full ${customSize} max-w-4xl  relative transform scale-95 ${
+            openModalAtom
+              ? "animate-fade-in opacity-100"
+              : "animate-fade-out opacity-0"
+          }`}
         >
-          <div className="border-b-[1px] border-[#030083]">
-            <h2 className="text-base text-slate-950 font-bold mb-2">{title}</h2>
+          <div className="flex justify-between items-center p-3 border-b">
+            <h5 className="font-semibold">{title}</h5>
+            <button
+              className="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm dark:hover:bg-gray-600 dark:hover:text-white w-8 h-8"
+              onClick={handleCloseModal}
+            >
+              X
+            </button>
           </div>
-          <div>{children}</div>
 
-          <button
-            className="absolute top-3 end-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
-            onClick={handleCloseModal}
+          <div
+            className="p-4 overflow-y-auto"
+            style={{ maxHeight: "calc(100vh - 200px)" }}
           >
-            X
-          </button>
+            {children}
+          </div>
         </div>
       </div>
     </>

@@ -17,7 +17,7 @@ const Index = () => {
   const [hasil] = useAtom(hasil_intersect_atom);
   const [, setActiveModal] = useAtom(activeModalAtom);
   const [, setVisible] = useAtom(setVisibleToast);
-  const [, setIsLoading] = useAtom(isLoadingAtom);
+  const [isLoading, setIsLoading] = useAtom(isLoadingAtom);
   const [, setCoordinates] = useAtom(coordinatesAtom);
   const [, resetForm] = useAtom(form_pengajuan_atom);
   
@@ -43,6 +43,7 @@ const Index = () => {
             message: "Pengajuan Informasi berhasil",
             type: "success",
           });
+          setActiveModal('aju_informasi');
         }
         resetForm({
           pengaju: "",
@@ -53,7 +54,6 @@ const Index = () => {
         });
         setCoordinates([]);        
         setIsLoading(false);
-        setActiveModal(null);
       }
     );
   };
@@ -62,23 +62,28 @@ const Index = () => {
       <RTRW data={hasil.hasil_intersect.RTRW} />
       <RDTR data={hasil.hasil_intersect.RDTR} />
       <div className="m-3">
-        <h3>Total : {convertToFixed(hasil.total)} m2</h3>
+        <span>Total : {convertToFixed(hasil.total)} m2</span>
       </div>
       <div className="flex justify-between">
-        <Button className="button-blue" onClick={() => setActiveModal("krk")}>
+        <Button className="button-blue" 
+          disabled={isLoading}
+          onClick={() => setActiveModal("krk")}>
           Pengajuan KRK
         </Button>
         <div className="flex space-x-2">
           <Button
             className="button-blue"
+            disabled={isLoading}
             onClick={() => {
               window.open(hasil.pdf);
             }}
           >
             Cetak Informasi
           </Button>
-          <Button className="button-blue" onClick={pengajuanInformasi}>
-            Pengajuan Informasi
+          <Button className="button-blue" 
+            disabled={isLoading}
+            onClick={pengajuanInformasi}>
+            {isLoading ? "Loading..." : "Pengajuan Informasi"}
           </Button>
         </div>
       </div>
