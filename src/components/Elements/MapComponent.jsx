@@ -1,12 +1,13 @@
 import React, { useRef } from "react";
 import { Map, View } from "ol";
-// import { ScaleLine } from "ol/control";
-
-// import Print from "ol-ext/control/Print";
 
 import MapContext from "../../context/MapContext";
 import { transform } from "ol/proj";
 import Draw from "ol/interaction/Draw";
+import { getArea } from "ol/sphere";
+import Overlay from "ol/Overlay";
+import { Polygon } from "ol/geom";
+import { unByKey } from "ol/Observable";
 import Modal from "../../components/Elements/Modal/Modal.jsx";
 
 import {
@@ -32,7 +33,6 @@ import { defaults as defaultInteractions } from "ol/interaction.js";
 import NavigationToolPanel from "../../components/Fragments/NavigationToolPanel/Index.jsx";
 import { judul } from "../../Libs/common.js";
 import LoadingPanel from "./Loading/LoadingPanel.jsx";
-// import CetakPeta from "../../components/Fragments/CetakPeta.jsx";
 
 const MapComponent = () => {
   let lat = 4.49106,
@@ -52,7 +52,8 @@ const MapComponent = () => {
   const [activeModal, setActiveModal] = useAtom(activeModalAtom);
   const [, setVisible] = useAtom(setVisibleToast);
   const [, setIsOpenModal] = useAtom(isOpenModal);
-
+  const [, setHelpTooltip] = React.useState(null);
+  const [, setMeasureTooltip] = React.useState(null);
   const [judulModal, setJudulModal] = React.useState("");
   const [layerInfo, setLayerInfo] = React.useState([]);
 
@@ -97,7 +98,7 @@ const MapComponent = () => {
 
     // Cleanup when component unmounts
     return () => mapInstance.current.setTarget(null);
-  }, []);
+  }, [lat, lng, setInitialExtent, setInitialMapSize, setInitialResolution]);
 
   React.useEffect(() => {
     if (peta && isClick) {
@@ -137,7 +138,7 @@ const MapComponent = () => {
     } else {
       changeCursor("grab");
     }
-  }, [peta, isClick]);
+  }, [peta, isClick, changeCursor, setVisible, setActiveModal, setIsOpenModal]);
 
   React.useEffect(() => {
     if (isDrawing && peta) {
@@ -148,6 +149,48 @@ const MapComponent = () => {
       });
       drawInteractionRef.current = drawInteraction;
 
+      let sketch;
+      let measureTooltipElement;
+      // let helpTooltipElement;
+      let listener;
+
+      const createTooltip = (className) => {
+        const element = document.createElement("div");
+        element.className = `tooltip ${className}`;
+        const overlay = new Overlay({
+          element,
+          offset: [0, -15],
+          positioning: "bottom-center",
+        });
+        peta.addOverlay(overlay);
+        return { element, overlay };
+      };
+
+      const { element: newMeasureElement, overlay: newMeasureOverlay } =
+        createTooltip("tooltip-measure");
+      measureTooltipElement = newMeasureElement;
+      setMeasureTooltip(newMeasureOverlay);
+
+      const { overlay: newHelpOverlay } = createTooltip("hidden");
+      // helpTooltipElement = newHelpElement;
+      setHelpTooltip(newHelpOverlay);
+
+      drawInteraction.on("drawstart", (e) => {
+        sketch = e.feature;
+        listener = sketch.getGeometry().on("change", (e) => {
+          const geom = e.target;
+          let output;
+          let tooltipCoord;
+
+          if (geom instanceof Polygon) {
+            output = formatArea(geom);
+            tooltipCoord = geom.getInteriorPoint().getCoordinates();
+          }
+
+          measureTooltipElement.innerHTML = output;
+          newMeasureOverlay.setPosition(tooltipCoord);
+        });
+      });
       drawInteraction.on("drawend", (e) => {
         let features = e.feature;
         let geom = features.getGeometry();
@@ -170,6 +213,16 @@ const MapComponent = () => {
         setActiveModal("pengajuan");
         changeCursor("default");
 
+        measureTooltipElement.className = "tooltip tooltip-static";
+        newMeasureOverlay.setOffset([0, -7]);
+        sketch = null;        
+        measureTooltipElement.className = "hidden";
+        measureTooltipElement = null;
+
+        if (listener) {
+          unByKey(listener);
+        }
+
         //remove drawInteraction
         peta.removeInteraction(drawInteractionRef.current);
         drawInteractionRef.current = null;
@@ -189,7 +242,17 @@ const MapComponent = () => {
         peta.removeInteraction(drawInteractionRef.current);
       }
     };
-  }, [isDrawing]);
+  }, [isDrawing, changeCursor, peta, setVisibleModal, setActiveModal, setCoordinates, vectorDrawSource]);
+
+  const formatArea = (polygon) => {
+    // Menghitung luas area, getArea mengembalikan luas dalam m2    
+    const area = getArea(polygon);
+    //konversi m2 ke km2 dibagi 1.000.000
+    //konversi m2 ke ha dibagi 10.000
+    return area > 10000
+      ? `${(area / 10000).toFixed(2)} ha`
+      : `${area.toFixed(2)} m²`;
+  };
 
   return (
     <MapContext.Provider value={{ peta }}>

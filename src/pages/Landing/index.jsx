@@ -38,7 +38,7 @@ const LandingPage = () => {
 
   useEffect(() => {
     setIsOpenModal(true);
-  }, [activeModal, modalVisible]);
+  }, [activeModal, modalVisible, setIsOpenModal]);
 
   useEffect(() => {
     if (isVisible.visible) {
@@ -53,10 +53,10 @@ const LandingPage = () => {
         setVisible({
           visible: false,
         });
-        // setError(false);
+     
       }
     }
-  }, [isVisible.visible]);
+  }, [isVisible.visible, isVisible.message, isVisible.type, setVisible]);
 
   return (
     <LandingLayout>

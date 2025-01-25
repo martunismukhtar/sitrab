@@ -1,12 +1,13 @@
 import React, { useEffect } from "react";
 import Table from "../../Elements/Table";
 import { convertToFixed } from "../../../Libs/common";
+import PropTypes from "prop-types";
 
 const RDTR = ({ data }) => {
   const [newdata, setNewData] = React.useState([]);
   useEffect(() => {
     let rdtr = [];
-    data.map((item, idx) => {
+    data.map((item) => {
       rdtr.push({
         "Peruntukan Ruang": item.ruang,
         "Luas (m2)": convertToFixed(item.luas),
@@ -16,11 +17,13 @@ const RDTR = ({ data }) => {
 
     setNewData(rdtr);
   }, [data]);
-
+  RDTR.propTypes = {
+    data: PropTypes.array.isRequired,
+  };
   return (
     <>
       {newdata.length > 0 && (
-        <div className="m-3">
+        <div className="my-3">
           <h5>RDTR</h5>
           <Table data={newdata} />
         </div>
