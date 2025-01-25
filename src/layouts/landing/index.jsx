@@ -1,5 +1,6 @@
 
 import Navbar from "./navbar";
+import PropTypes from "prop-types";
 
 const LandingLayout = ({ children }) => {
   return (
@@ -14,3 +15,6 @@ const LandingLayout = ({ children }) => {
 };
 
 export default LandingLayout;
+LandingLayout.propTypes = {
+  children: PropTypes.node.isRequired,
+};

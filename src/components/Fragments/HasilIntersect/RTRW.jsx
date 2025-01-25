@@ -1,39 +1,44 @@
-import React, { useEffect } from "react";
+// RTRW.jsx
+
+import { useEffect, useState } from "react";
 import Table from "../../Elements/Table";
 import { convertToFixed } from "../../../Libs/common";
-import PropTypes from "prop-types";
+import { RTRWPropTypes } from "../../../Types/RTRW.types"
 
 const RTRW = ({ data }) => {
-  const [newdata, setNewData] = React.useState([]);
+  const [newData, setNewData] = useState([]);
+
   useEffect(() => {
     if (!Array.isArray(data)) {
-      console.error("data must be an array");
+      console.error("The 'data' prop must be an array");
+      setNewData([]); // Reset state if data is invalid
       return;
     }
-    let rtrw = [];
-    data.map((item) => {
-      rtrw.push({
-        "Peruntukan Ruang": item.ruang,
-        "Luas (m2)": convertToFixed(item.luas),
-        Status: item.status,
-      });
-    });
-    setNewData(rtrw);
+
+    const formattedData = data.map((item) => ({
+      "Peruntukan Ruang": item.ruang || "Tidak diketahui", // Fallback jika `item.ruang` undefined
+      "Luas (ha)": convertToFixed(item.luas || 0), // Fallback jika `item.luas` undefined
+      Status: item.status || "Tidak diketahui", // Fallback jika `item.status` undefined
+    }));
+
+    setNewData(formattedData);
   }, [data]);
 
-  RTRW.propTypes = {
-    data: PropTypes.array.isRequired,
-  };
   return (
-    <>
-      {newdata.length > 0 && (
-        <div className="my-3">
+    <div className="my-3">
+      {newData.length > 0 ? (
+        <>
           <h5>RTRW</h5>
-          <Table data={newdata} />
-        </div>
+          <Table data={newData} />
+        </>
+      ) : (
+        <p>Data tidak tersedia atau tidak valid.</p>
       )}
-    </>
+    </div>
   );
 };
 
+RTRW.propTypes = RTRWPropTypes;
+
+// eslint-disable-next-line react-refresh/only-export-components
 export default RTRW;

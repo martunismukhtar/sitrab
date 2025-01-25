@@ -12,6 +12,7 @@ import RDTR from "./RDTR";
 import Button from "../../Elements/Button";
 import { convertToFixed } from "../../../Libs/common";
 import { statusPengajuan } from "../../../Services/proses_status_pengajuan.service";
+import React from "react";
 
 const Index = () => {
   const [hasil] = useAtom(hasil_intersect_atom);
@@ -20,6 +21,7 @@ const Index = () => {
   const [isLoading, setIsLoading] = useAtom(isLoadingAtom);
   const [, setCoordinates] = useAtom(coordinatesAtom);
   const [, resetForm] = useAtom(form_pengajuan_atom);
+  const [total, setTotal] = React.useState(0);
   
   const pengajuanInformasi = () => {
     //ubah status = 2 pada tabel pengajuan
@@ -57,12 +59,26 @@ const Index = () => {
       }
     );
   };
+
+  React.useEffect(() => {
+    const total_rtrw = hasil.hasil_intersect.RTRW.reduce(
+      (total, item) => total + item.luas,
+      0
+    )
+    const total_rdtr = hasil.hasil_intersect.RDTR.reduce(
+      (total, item) => total + item.luas,
+      0
+    )
+    const total_luas = total_rtrw + total_rdtr;
+    setTotal(convertToFixed(total_luas)); 
+  }, [hasil.hasil_intersect])
+
   return (
     <>
       <RTRW data={hasil.hasil_intersect.RTRW} />
       <RDTR data={hasil.hasil_intersect.RDTR} />
       <div className="m-3">
-        <span>Total : {convertToFixed(hasil.total)} m2</span>
+        <span>Total : {total} ha</span>
       </div>
       <div className="flex justify-between">
         <Button className="button-blue" 

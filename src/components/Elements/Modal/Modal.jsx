@@ -7,6 +7,7 @@ import {
   isDrawingAtom,
   isOpenModal,
 } from "../../../jotai/atoms";
+import PropTypes from "prop-types";
 
 const Modal = ({
   title = "Judul Modal",
@@ -100,3 +101,10 @@ const Modal = ({
 };
 
 export default Modal;
+
+Modal.propTypes = {
+  title: PropTypes.string,
+  size: PropTypes.string,
+  children: PropTypes.node,
+  className: PropTypes.string,
+};
