@@ -1,8 +1,16 @@
-import React, { useContext, useEffect } from 'react'
+import { useContext, useEffect } from 'react'
 import MapContext from '../context/MapContext'
 import TileLayer from 'ol/layer/Tile'
 import { useAtom } from 'jotai'
 import { layersMapAtom } from '../jotai/atoms'
+import PropTypes from "prop-types";
+// import Layer from 'ol/layer/Layer'
+
+LayarTile.propTypes = {
+  source:PropTypes.object,
+  layerID:PropTypes.string,
+  isVisible:PropTypes.bool
+}
 
 const LayarTile = ({source, layerID, isVisible=true}) => {
   const { peta } = useContext(MapContext)
@@ -20,7 +28,7 @@ const LayarTile = ({source, layerID, isVisible=true}) => {
     if(!isVisible) layer.setVisible(false) 
     else layer.setVisible(true)
 
-  }, [peta])
+  }, [peta, source, layerID, isVisible, setLayersMap])
 
   return null
 }

@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import Table from "../../Elements/Table";
 import { convertToFixed } from "../../../Libs/common";
-import { RTRWPropTypes } from "../../../Types/RTRW.types"
+import { RTRWPropTypes } from "../../../Types/RTRW.types";
 
 const RTRW = ({ data }) => {
   const [newData, setNewData] = useState([]);
@@ -11,28 +11,28 @@ const RTRW = ({ data }) => {
   useEffect(() => {
     if (!Array.isArray(data)) {
       console.error("The 'data' prop must be an array");
-      setNewData([]); // Reset state if data is invalid
+      setNewData([]);
       return;
     }
-
-    const formattedData = data.map((item) => ({
-      "Peruntukan Ruang": item.ruang || "Tidak diketahui", // Fallback jika `item.ruang` undefined
-      "Luas (ha)": convertToFixed(item.luas || 0), // Fallback jika `item.luas` undefined
-      Status: item.status || "Tidak diketahui", // Fallback jika `item.status` undefined
-    }));
+    const formattedData = data.map((item) => {
+      const luas = typeof item.luas === "number" ? item.luas : 0; // Pastikan luas adalah angka
+      return {
+        "Peruntukan Ruang": item.ruang || "Tidak diketahui",
+        "Luas (ha)": convertToFixed(luas),
+        Status: item.status || "Tidak diketahui",
+      };
+    });
 
     setNewData(formattedData);
   }, [data]);
 
   return (
     <div className="my-3">
-      {newData.length > 0 ? (
-        <>
+      {newData.length > 0 && (
+        <div className="my-3">
           <h5>RTRW</h5>
           <Table data={newData} />
-        </>
-      ) : (
-        <p>Data tidak tersedia atau tidak valid.</p>
+        </div>
       )}
     </div>
   );

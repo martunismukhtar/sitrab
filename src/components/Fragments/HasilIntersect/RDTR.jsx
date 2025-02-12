@@ -13,24 +13,17 @@ const RDTR = ({ data }) => {
       return;
     }
 
-    const formattedData = data.map((item) => ({
-      "Peruntukan Ruang": item.ruang || "Tidak diketahui", // Fallback jika `item.ruang` undefined
-      "Luas (ha)": convertToFixed(item.luas || 0), // Fallback jika `item.luas` undefined
-      Status: item.status || "Tidak diketahui", // Fallback jika `item.status` undefined
-    }));
+    const formattedData = data.map((item) => {
+      const luas = typeof item.luas === "number" ? item.luas : 0; // Pastikan luas adalah angka
+      return {
+        "Peruntukan Ruang": item.ruang || "Tidak diketahui",
+        "Luas (ha)": convertToFixed(luas),
+        Status: item.status || "Tidak diketahui",
+      };
+    });
 
     setNewData(formattedData);
 
-    // let rdtr = [];
-    // data.map((item) => {
-    //   rdtr.push({
-    //     "Peruntukan Ruang": item.ruang,
-    //     "Luas (ha)": convertToFixed(item.luas),
-    //     Status: item.status,
-    //   });
-    // });
-
-    // setNewData(rdtr);
   }, [data]);
   RDTR.propTypes = {
     data: PropTypes.array.isRequired,

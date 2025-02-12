@@ -8,7 +8,7 @@ export const Capitalize = (string) => {
 };
 
 export const convertToFixed=(val)=> {
-    let n = parseFloat(val).toFixed(2);
+    let n = parseFloat(val).toFixed(4);
     return n;
 }
 
